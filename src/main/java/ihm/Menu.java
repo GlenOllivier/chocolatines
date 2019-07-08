@@ -1,23 +1,39 @@
 package ihm;
 
-import util.Constantes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class Menu {
+    @Autowired
+    private Scanner scanner;
+
+    @Autowired
+    ListerChocolatines listerChocolatines;
+    @Autowired
+    CreerChocolatine creerChocolatine;
+    @Autowired
+    CréerCommande créerCommande;
+
     private List<MenuOption> options;
 
     public Menu() {
+    }
+
+    @PostConstruct
+    public void init() {
         options = new ArrayList<>();
-        options.add(new ListerChocolatines());
-        options.add(new CreerChocolatine());
-        options.add(new CréerCommande());
+        options.add(listerChocolatines);
+        options.add(creerChocolatine);
+        options.add(créerCommande);
     }
 
     public void run() {
-        Scanner scanner = Constantes.SCANNER;
 
         int choix;
         do {

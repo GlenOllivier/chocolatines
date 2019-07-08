@@ -2,13 +2,23 @@ package ihm;
 
 import bean.Chocolatine;
 import bean.Commande;
-import util.Constantes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import service.ChocolatineService;
+import service.CommandeService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class CréerCommande implements MenuOption {
+    @Autowired
+    private Scanner scanner;
+    @Autowired
+    private ChocolatineService chocolatineService;
+    @Autowired
+    private CommandeService commandeService;
 
     @Override
     public String getName() {
@@ -17,9 +27,8 @@ public class CréerCommande implements MenuOption {
 
     @Override
     public void run() {
-        List<Chocolatine> liste = Constantes.CHOCOLATINE_SERVICE.getChocolatines();
+        List<Chocolatine> liste = chocolatineService.getChocolatines();
         System.out.println("Creation de commande");
-        Scanner scanner = Constantes.SCANNER;
         Commande commande = new Commande(LocalDateTime.now(), Commande.Statut.EN_TRAITEMENT);
         int choix;
         do {
@@ -43,7 +52,7 @@ public class CréerCommande implements MenuOption {
             }
 
             if(choix == liste.size() + 1) {
-                Constantes.COMMANDE_SERVICE.save(commande);
+                commandeService.save(commande);
                 break;
             }
             if(choix == liste.size() + 2) {

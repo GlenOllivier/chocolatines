@@ -1,11 +1,19 @@
 package ihm;
 
 import bean.Chocolatine;
-import util.Constantes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import service.ChocolatineService;
 
 import java.util.Scanner;
 
+@Controller
 public class CreerChocolatine implements MenuOption {
+    @Autowired
+    private ChocolatineService chocolatineService;
+    @Autowired
+    private Scanner scanner;
+
     @Override
     public String getName() {
         return "Créer une chocolatine";
@@ -13,7 +21,6 @@ public class CreerChocolatine implements MenuOption {
 
     @Override
     public void run() {
-        Scanner scanner = Constantes.SCANNER;
         scanner.nextLine();
         System.out.println("Veuillez saisir un nom :");
         String nom = scanner.nextLine();
@@ -24,7 +31,7 @@ public class CreerChocolatine implements MenuOption {
         System.out.println("Veuillez saisir un poids (Kg) :");
         float poids = scanner.nextFloat();
 
-        Chocolatine c = Constantes.CHOCOLATINE_SERVICE.addChocolatine(nom, prix, temperature, poids);
+        Chocolatine c = chocolatineService.addChocolatine(nom, prix, temperature, poids);
         System.out.println(c);
     }
 }
